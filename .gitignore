@@ -12,3 +12,6 @@
 # Other file types
 *.xml
 *.iml
+
+# Folders
+/.idea

@@ -13,7 +13,7 @@ func Test_Get(t *testing.T) {
 	key := config.API_KEY
 	endpoint := "/v2/tools/price-conversion"
 
-	repo := NewQuoteCmc(baseUrl, endpoint, key)
+	repo := NewCmcRepository(baseUrl, endpoint, key)
 
 	convertFrom := entity.ConvertFrom{
 		Code:   "BTC",
@@ -27,4 +27,5 @@ func Test_Get(t *testing.T) {
 	result, err := repo.Get(&convertFrom, &convertTo)
 	assert.Nil(t, err)
 	assert.NotNil(t, result)
+	assert.Equal(t, 2, len(result.List))
 }

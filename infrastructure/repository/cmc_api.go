@@ -12,23 +12,23 @@ import (
 	"github.com/moukhit/crypto-currency-converter/entity"
 )
 
-// QuoteCmc service as a repository for getting the currency exchange quotes
-type QuoteCmc struct {
+// CmcRepository service as a repository for getting the currency exchange quotes
+type CmcRepository struct {
 	baseUrl  string
 	endpoint string
 	key      string
 }
 
-// NewQuoteCmc creates new repository
-func NewQuoteCmc(baseUrl string, endpoint string, key string) *QuoteCmc {
-	return &QuoteCmc{
+// NewCmcRepository creates new repository
+func NewCmcRepository(baseUrl string, endpoint string, key string) *CmcRepository {
+	return &CmcRepository{
 		baseUrl:  baseUrl,
 		endpoint: endpoint,
 		key:      key,
 	}
 }
 
-func (q *QuoteCmc) Get(convertFrom *entity.ConvertFrom, convertTo *entity.ConvertTo) (*entity.Quotes, error) {
+func (q *CmcRepository) Get(convertFrom *entity.ConvertFrom, convertTo *entity.ConvertTo) (*entity.Quotes, error) {
 	url := q.buildEntireUrl(convertFrom, convertTo)
 	timeout := 30 * time.Second
 	client := http.Client{
@@ -57,7 +57,7 @@ func (q *QuoteCmc) Get(convertFrom *entity.ConvertFrom, convertTo *entity.Conver
 	return quotes, nil
 }
 
-func (q *QuoteCmc) buildQueryString(convertFrom *entity.ConvertFrom, convertTo *entity.ConvertTo) string {
+func (q *CmcRepository) buildQueryString(convertFrom *entity.ConvertFrom, convertTo *entity.ConvertTo) string {
 	var sb strings.Builder
 
 	sb.WriteString("?amount=")
@@ -77,7 +77,7 @@ func (q *QuoteCmc) buildQueryString(convertFrom *entity.ConvertFrom, convertTo *
 	return sb.String()
 }
 
-func (q *QuoteCmc) buildEntireUrl(convertFrom *entity.ConvertFrom, convertTo *entity.ConvertTo) string {
+func (q *CmcRepository) buildEntireUrl(convertFrom *entity.ConvertFrom, convertTo *entity.ConvertTo) string {
 	queryString := q.buildQueryString(convertFrom, convertTo)
 	return q.baseUrl + q.endpoint + queryString
 }
