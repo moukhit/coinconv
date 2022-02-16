@@ -64,7 +64,7 @@ func parseArgs(args []string) (*entity.ConvertFrom, *entity.ConvertTo, error) {
 		Code:   temp,
 	}
 
-	s := strings.Join(args[2:], "")
+	s := strings.Join(args[2:], ",")
 	tail := strings.Split(s, ",")
 
 	convertTo := entity.ConvertTo{
