@@ -12,14 +12,14 @@ import (
 	"github.com/moukhit/crypto-currency-converter/entity"
 )
 
-// CoinMarketCap service as a repository for currency exchange quotes
+// QuoteCmc service as a repository for getting the currency exchange quotes
 type QuoteCmc struct {
 	baseUrl  string
 	endpoint string
 	key      string
 }
 
-// Create new repository
+// NewQuoteCmc creates new repository
 func NewQuoteCmc(baseUrl string, endpoint string, key string) *QuoteCmc {
 	return &QuoteCmc{
 		baseUrl:  baseUrl,
@@ -30,7 +30,7 @@ func NewQuoteCmc(baseUrl string, endpoint string, key string) *QuoteCmc {
 
 func (q *QuoteCmc) Get(convertFrom *entity.ConvertFrom, convertTo *entity.ConvertTo) (*entity.Quotes, error) {
 	url := q.buildEntireUrl(convertFrom, convertTo)
-	timeout := time.Duration(30 * time.Second)
+	timeout := 30 * time.Second
 	client := http.Client{
 		Timeout: timeout,
 	}
@@ -45,9 +45,11 @@ func (q *QuoteCmc) Get(convertFrom *entity.ConvertFrom, convertTo *entity.Conver
 		return nil, err
 	}
 
-	defer resp.Body.Close()
+	defer func(body io.ReadCloser) {
+		_ = body.Close()
+	}(resp.Body)
 
-	quotes, err := parseResponse(request.Body, convertFrom.Code)
+	quotes, err := parseResponse(resp.Body, convertFrom.Code)
 	if err != nil {
 		return nil, err
 	}

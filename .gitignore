@@ -8,3 +8,7 @@
 # Testing
 *.test
 *.tmp
+
+# Other file types
+*.xml
+*.iml
