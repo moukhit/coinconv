@@ -41,7 +41,7 @@ func main() {
 		log.Fatalf("Error getting quotes: %s", err.Error())
 	}
 
-	print(convertFrom, quotes)
+	printResult(convertFrom, quotes)
 }
 
 func parseArgs(args []string) (*entity.ConvertFrom, *entity.ConvertTo, error) {
@@ -49,32 +49,30 @@ func parseArgs(args []string) (*entity.ConvertFrom, *entity.ConvertTo, error) {
 		return nil, nil, ErrInvalidArguments
 	}
 
-	amount, err := strconv.ParseFloat(args[0], 64)
+	amount, err := strconv.ParseFloat(args[0], 32)
 	if amount <= 0 || err != nil {
 		return nil, nil, ErrInvalidArguments
 	}
 
-	temp := strings.ToUpper(strings.TrimSpace(args[1]))
-	if len(temp) == 0 {
+	code := strings.ToUpper(strings.TrimSpace(args[1]))
+	if len(code) == 0 {
 		return nil, nil, ErrInvalidArguments
 	}
 
-	convertFrom := entity.ConvertFrom{
-		Amount: float32(amount),
-		Code:   temp,
-	}
+	convertFrom, err := entity.NewConvertFrom(float32(amount), code)
 
 	s := strings.Join(args[2:], ",")
 	tail := strings.Split(s, ",")
 
-	convertTo := entity.ConvertTo{
-		Codes: tail,
+	convertTo, err := entity.NewConvertTo(tail)
+	if err != nil {
+		return nil, nil, err
 	}
 
-	return &convertFrom, &convertTo, nil
+	return convertFrom, convertTo, nil
 }
 
-func print(from *entity.ConvertFrom, quotes *entity.Quotes) {
+func printResult(from *entity.ConvertFrom, quotes *entity.Quotes) {
 	fmt.Println(from.Amount, from.Code, "quotes:")
 	for _, v := range quotes.List {
 		fmt.Println(v.Code, ": ", v.Price)

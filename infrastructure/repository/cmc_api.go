@@ -12,7 +12,7 @@ import (
 	"github.com/moukhit/crypto-currency-converter/entity"
 )
 
-// CmcRepository service as a repository for getting the currency exchange quotes
+// CmcRepository service acts as a repository for getting the currency exchange quotes
 type CmcRepository struct {
 	baseUrl  string
 	endpoint string
@@ -29,17 +29,23 @@ func NewCmcRepository(baseUrl string, endpoint string, key string) *CmcRepositor
 }
 
 func (q *CmcRepository) Get(convertFrom *entity.ConvertFrom, convertTo *entity.ConvertTo) (*entity.Quotes, error) {
+	// build the url with query parameters
 	url := q.buildEntireUrl(convertFrom, convertTo)
+
+	// the timeout for request
 	timeout := 30 * time.Second
 	client := http.Client{
 		Timeout: timeout,
 	}
+
+	// preparing request
 	request, err := http.NewRequest("GET", url, nil)
 	request.Header.Set("X-CMC_PRO_API_KEY", q.key)
 	if err != nil {
 		return nil, err
 	}
 
+	// send request
 	resp, err := client.Do(request)
 	if err != nil {
 		return nil, err
@@ -49,6 +55,7 @@ func (q *CmcRepository) Get(convertFrom *entity.ConvertFrom, convertTo *entity.C
 		_ = body.Close()
 	}(resp.Body)
 
+	// parsing response
 	quotes, err := parseResponse(resp.Body, convertFrom.Code)
 	if err != nil {
 		return nil, err

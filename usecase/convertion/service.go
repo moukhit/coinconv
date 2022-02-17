@@ -4,6 +4,7 @@ import (
 	"github.com/moukhit/crypto-currency-converter/entity"
 )
 
+// Service for getting quotes for currency exchange
 type Service struct {
 	repo Repository
 }

@@ -2,6 +2,7 @@ package entity
 
 import "strings"
 
+// ConvertTo contains a list of currencies convert to
 type ConvertTo struct {
 	Codes []string
 }

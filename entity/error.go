@@ -6,6 +6,7 @@ import (
 )
 
 const (
+	// LimitToConvert is a maximum number of currencies for getting quotes for conversion
 	LimitToConvert int = 120
 )
 

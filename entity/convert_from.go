@@ -2,6 +2,7 @@ package entity
 
 import "strings"
 
+// ConvertFrom is a structure containing details of amount and currency for conversion
 type ConvertFrom struct {
 	Amount float32
 	Code   string
