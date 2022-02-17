@@ -1,4 +1,4 @@
-package di
+package container
 
 import (
 	repo "github.com/moukhit/crypto-currency-converter/infrastructure/repository"

@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/moukhit/crypto-currency-converter/apperrors"
-	"github.com/moukhit/crypto-currency-converter/di"
+	"github.com/moukhit/crypto-currency-converter/container"
 	"github.com/moukhit/crypto-currency-converter/entity"
 )
 
@@ -28,7 +28,7 @@ func main() {
 		To:   *convertTo,
 	}
 
-	svc := di.InitService()
+	svc := container.InitService()
 
 	quotes, err := svc.GetQuotes(&request)
 	if err != nil {
