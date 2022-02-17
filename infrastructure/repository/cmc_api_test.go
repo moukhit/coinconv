@@ -3,28 +3,20 @@ package repository
 import (
 	"testing"
 
-	"github.com/moukhit/crypto-currency-converter/config"
 	"github.com/moukhit/crypto-currency-converter/entity"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_Get(t *testing.T) {
-	baseUrl := config.COINMARKET_API_GATEWAY
-	key := config.API_KEY
-	endpoint := "/v2/tools/price-conversion"
+	repo := NewCmcRepository()
+	convertFrom, err := entity.NewConvertFrom(1.0, "BTC")
+	assert.Nil(t, err)
 
-	repo := NewCmcRepository(baseUrl, endpoint, key)
+	codes := []string{"USD", "EUR"}
+	convertTo, err := entity.NewConvertTo(codes)
+	assert.Nil(t, err)
 
-	convertFrom := entity.ConvertFrom{
-		Code:   "BTC",
-		Amount: 1.0,
-	}
-
-	convertTo := entity.ConvertTo{
-		Codes: []string{"USD", "EUR"},
-	}
-
-	result, err := repo.Get(&convertFrom, &convertTo)
+	result, err := repo.Get(convertFrom, convertTo)
 	assert.Nil(t, err)
 	assert.NotNil(t, result)
 	assert.Equal(t, 2, len(result.List))

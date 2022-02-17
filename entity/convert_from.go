@@ -1,6 +1,9 @@
 package entity
 
-import "strings"
+import (
+	"github.com/moukhit/crypto-currency-converter/apperrors"
+	"strings"
+)
 
 // ConvertFrom is a structure containing details of amount and currency for conversion
 type ConvertFrom struct {
@@ -26,7 +29,7 @@ func NewConvertFrom(amount float32, code string) (*ConvertFrom, error) {
 
 func (c *ConvertFrom) Validate() error {
 	if c.Amount <= 0 || len(c.Code) == 0 {
-		return ErrInvalidConvertFrom
+		return apperrors.ErrInvalidConvertFrom
 	}
 
 	return nil

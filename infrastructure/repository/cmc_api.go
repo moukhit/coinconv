@@ -3,6 +3,7 @@ package repository
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/moukhit/crypto-currency-converter/config"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -20,7 +21,11 @@ type CmcRepository struct {
 }
 
 // NewCmcRepository creates new repository
-func NewCmcRepository(baseUrl string, endpoint string, key string) *CmcRepository {
+func NewCmcRepository() *CmcRepository {
+	baseUrl := config.COINMARKET_API_GATEWAY
+	key := config.API_KEY
+	endpoint := "/v2/tools/price-conversion"
+
 	return &CmcRepository{
 		baseUrl:  baseUrl,
 		endpoint: endpoint,

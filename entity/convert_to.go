@@ -1,6 +1,9 @@
 package entity
 
-import "strings"
+import (
+	"github.com/moukhit/crypto-currency-converter/apperrors"
+	"strings"
+)
 
 // ConvertTo contains a list of currencies convert to
 type ConvertTo struct {
@@ -25,13 +28,13 @@ func NewConvertTo(codes []string) (*ConvertTo, error) {
 }
 
 func (c *ConvertTo) Validate() error {
-	if len(c.Codes) > LimitToConvert {
-		return ErrLimitExceeded
+	if len(c.Codes) > apperrors.LimitToConvert {
+		return apperrors.ErrLimitExceeded
 	}
 
 	for _, code := range c.Codes {
 		if len(code) == 0 {
-			return ErrInvalidConvertTo
+			return apperrors.ErrInvalidConvertTo
 		}
 	}
 

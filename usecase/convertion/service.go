@@ -1,6 +1,7 @@
 package convertion
 
 import (
+	"github.com/moukhit/crypto-currency-converter/apperrors"
 	"github.com/moukhit/crypto-currency-converter/entity"
 )
 
@@ -17,7 +18,7 @@ func NewService(r Repository) *Service {
 
 func (s *Service) GetQuotes(request *entity.Request) (*entity.Quotes, error) {
 	if request == nil {
-		return nil, ErrInvalidRequest
+		return nil, apperrors.ErrInvalidRequest
 	}
 
 	from := request.From
@@ -29,7 +30,7 @@ func (s *Service) GetQuotes(request *entity.Request) (*entity.Quotes, error) {
 	}
 
 	if len(quotes.List) == 0 {
-		return nil, ErrGettingResponse
+		return nil, apperrors.ErrGettingResponse
 	}
 
 	return quotes, nil
