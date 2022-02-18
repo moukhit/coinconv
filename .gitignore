@@ -14,5 +14,6 @@
 *.iml
 
 # Folders
-/.idea
 /bin
+/.idea/
+/.vscode/
