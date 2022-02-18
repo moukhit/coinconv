@@ -10,7 +10,7 @@ The tool uses the sandbox of the CoinMarketCap service and testing key.
 
 Getting quotes only for single currency is possible.
 
-## gow to compile (Windows)
+## how to compile (Windows)
 1. `cd cmd`
 2. `go build -o bin/coinconv.exe main.go` 
 
