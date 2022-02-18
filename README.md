@@ -10,3 +10,6 @@ The tool uses the sandbox of the CoinMarketCap service and testing key.
 
 Getting quotes only for single currency is possible.
 
+
+
+
